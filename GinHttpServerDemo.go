@@ -1,10 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-)
-
 type Demo struct{
 
 	DemoString string `json:"demoString" form:"demoString" binding:"required"`
@@ -12,6 +7,7 @@ type Demo struct{
 
 }
 
+/*
 func main() {
 
 
@@ -93,3 +89,4 @@ func main() {
 	router.Run()
 
 }
+ */

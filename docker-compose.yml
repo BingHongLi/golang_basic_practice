@@ -3,7 +3,7 @@ version: '3.5'
 services:
   postgres:
     container_name: postgre.cxcxc
-    image: postgres:12.2
+    image: postgres:11.7
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - cxcxc
     restart: unless-stopped
 
   pgadmin:
@@ -27,11 +27,32 @@ services:
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
-      - postgres
+      - cxcxc
     restart: unless-stopped
 
+  dynamodb:
+    container_name: dynamodb.cxcxc
+    image: amazon/dynamodb-local
+    ports:
+      - 8000:8000
+    networks:
+      - cxcxc
+
+  dynamodb-admin:
+    container_name: dynamodb-admin
+    image: aaronshaf/dynamodb-admin
+    ports:
+      - 8001:8001
+    environment:
+      - AWS_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=local
+      - AWS_SECRET_ACCESS_KEY=local
+      - DYNAMO_ENDPOINT=http://dynamodb.cxcxc:8000
+    networks:
+      - cxcxc
+
 networks:
-  postgres:
+  cxcxc:
     driver: bridge
 
 volumes:
